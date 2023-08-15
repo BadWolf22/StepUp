@@ -10,6 +10,7 @@ import static com.mojang.brigadier.arguments.FloatArgumentType.getFloat;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.text.Text;
 
@@ -21,13 +22,15 @@ public class StepUpCommand {
     static LiteralArgumentBuilder<FabricClientCommandSource> setCmd = literal("set");
     static RequiredArgumentBuilder<FabricClientCommandSource, Float> heightArg = argument("height", floatArg(0))
             .executes(ctx -> {
-                ctx.getSource().sendFeedback(Text.of("Step height changed to: " + getFloat(ctx, "height")));
-                ctx.getSource().getPlayer().setStepHeight(getFloat(ctx, "height"));
+                var stepHeight = getFloat(ctx, "height");
+                ctx.getSource().sendFeedback(Text.of("Step height changed to: " + stepHeight));
+                setStepHeight(stepHeight, ctx.getSource().getPlayer());
                 return 0;
             });
     static LiteralArgumentBuilder<FabricClientCommandSource> resetCmd = literal("reset").executes(ctx -> {
+        var stepHeight = 0.6f;
         ctx.getSource().sendFeedback(Text.of("Step height reset"));
-        ctx.getSource().getPlayer().setStepHeight(0.6f);
+        setStepHeight(stepHeight, ctx.getSource().getPlayer());
         return 0;
     });
 
@@ -36,5 +39,10 @@ public class StepUpCommand {
         dispatcher.register(stepUpCmd
                 .then(setCmd.then(heightArg))
                 .then(resetCmd));
+    }
+
+    public static void setStepHeight(float stepHeight, ClientPlayerEntity player) {
+        StepUpClient.settingsManager.settings.StepHeight = stepHeight;
+        StepUpClient.settingsManager.save();
     }
 }
