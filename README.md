@@ -13,6 +13,5 @@ Uses client commands for configuration.
     * The vanilla value is 0.6f.
 
 ### Future Outlook
-1. Persistence
 1. Mod Icon
-1. Config file/Mod Menu
+1. Mod Menu
