@@ -1,9 +1,17 @@
-# Fabric Example Mod
+# Step Height Modification Mod
+Allows you to walk up <x> blocks as if they are stairs.
+Uses client commands for configuration. 
 
-## Setup
+## Commands
+1. `/stepup`: Provides information
+    * TODO: More description and help
+1. `/stepup set <height>`: Sets the height to climb
+    * Min 0, Max: infinity
+    * TODO: Persist
+1. `/stepup reset`: Resets the step height
+    * The vanilla value is 0.6f.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+### Future Outlook
+1. Persistence
+1. Mod Icon
+1. Config file/Mod Menu
