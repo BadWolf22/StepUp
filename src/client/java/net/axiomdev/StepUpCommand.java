@@ -23,7 +23,19 @@ public class StepUpCommand {
         return 0;
     });
 
-    static LiteralArgumentBuilder<FabricClientCommandSource> heightCmd = literal("height");
+    static LiteralArgumentBuilder<FabricClientCommandSource> helpCmd = literal("help").executes(ctx -> {
+        ctx.getSource().sendFeedback(Text.of("For usage examples, execute a command without any parameters."));
+        ctx.getSource().sendFeedback(Text.of("§6height§r: Used to adjust the height of your step."));
+        ctx.getSource().sendFeedback(Text.of("§6sprintOnly§r: Used to set whether to StepUp only while sprinting or not."));
+        ctx.getSource().sendFeedback(Text.of("§6reset§r: Used to get back to normal."));
+        return 0;
+    });
+
+    static LiteralArgumentBuilder<FabricClientCommandSource> heightCmd = literal("height").executes(ctx -> {
+        ctx.getSource().sendFeedback(Text.of("Used to adjust the height of your step."));
+        ctx.getSource().sendFeedback(Text.of("  Usage Example: \"/stepup height 1.1\""));
+        return 0;
+    });
     static RequiredArgumentBuilder<FabricClientCommandSource, Float> heightArg = argument("height", floatArg(0))
             .executes(ctx -> {
                 var stepHeight = getFloat(ctx, "height");
@@ -32,7 +44,11 @@ public class StepUpCommand {
                 return 0;
             });
 
-    static LiteralArgumentBuilder<FabricClientCommandSource> sprintCmd = literal("sprintOnly"); // TODO: A description
+    static LiteralArgumentBuilder<FabricClientCommandSource> sprintCmd = literal("sprintOnly").executes(ctx -> {
+        ctx.getSource().sendFeedback(Text.of("Used to set whether to StepUp only while sprinting or not."));
+        ctx.getSource().sendFeedback(Text.of("  Usage Example: \"/stepup sprintOnly true\""));
+        return 0;
+    });
     static RequiredArgumentBuilder<FabricClientCommandSource, Boolean> sprintArg = argument("sprintOnly", bool())
             .executes(ctx -> {
                 var sprintOnly = getBool(ctx, "sprintOnly");
@@ -52,6 +68,7 @@ public class StepUpCommand {
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher,
             CommandRegistryAccess registryAccess) {
         dispatcher.register(stepUpCmd
+                .then(helpCmd)
                 .then(heightCmd.then(heightArg))
                 .then(sprintCmd.then(sprintArg))
                 .then(resetCmd));
