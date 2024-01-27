@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "stepup",
 	"version": "${version}",
-	"name": "Step Height Modification",
+	"name": "StepUp",
 	"description": "Allows you to vertically scale sheer cliffs in 0.1 planck-seconds.",
 	"authors": [
 		"BadWolf22"
